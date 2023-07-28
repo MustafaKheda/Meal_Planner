@@ -1,0 +1,111 @@
+@import url("https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Freehand&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Rubik+Dirt&display=swap");
+* {
+  /* font-family: "Rubik Dirt", cursive !important; */
+  margin: 0;
+  padding: 0;
+}
+
+.login-container {
+  /* background-color: #f4f7f5; */
+  position: relative;
+  padding-top: 110px;
+}
+
+.login-container::before {
+  box-sizing: border-box;
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  min-height: 800px !important;
+  height: 100vh;
+  min-height: max-content;
+  background-image: url(../Image/brooke-lark-wMzx2nBdeng-unsplash.png);
+  background-size: cover;
+  filter: blur(4px);
+  z-index: -1;
+}
+
+.login-form {
+  /* transition: all 5s ease-in 2s; */
+  /* font-family: "Rubik Dirt", cursive !important; */
+  margin: 0 auto;
+  backdrop-filter: blur(30px);
+  padding: 10px 20px 40px;
+  width: 350px;
+  min-height: 450px;
+  /* padding: 20px; */
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+  overflow: hidden;
+}
+.login-form-buttonGroup {
+  width: 100% !important;
+}
+.login-form-button {
+  width: 50%;
+  border: none !important;
+  color: #000 !important;
+}
+.login-form-inputs {
+  /* opacity: 0;
+  transition: opacity 1s ease-in; */
+  /* transform: translateX(110%); */
+  min-height: 260px;
+  padding: 40px 0;
+  align-items: center;
+}
+/***** Slide Left *****/
+.slide-right {
+  animation: 2s slide-right 2s;
+}
+@keyframes slide-right {
+  from {
+    margin-left: 110%;
+  }
+  to {
+    margin-left: 0%;
+  }
+}
+.form-input {
+  margin: 5px 0 !important;
+  height: 35px;
+  border-radius: 8px !important;
+  color: black !important;
+  background-color: #ffffff !important;
+}
+.form-input .MuiOutlinedInput-notchedOutline {
+  width: 100%;
+  height: inherit;
+}
+.button {
+  width: 100%;
+  border-radius: 35px !important;
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.6) !important;
+  color: #ffffff !important;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: rgba(0, 0, 0, 0.8) !important;
+}
+.login_link {
+  margin-top: 10px !important;
+  cursor: pointer;
+  font-weight: bolder;
+}
+/* .opacity {
+ opacity: 1; 
+} */
+.signin {
+  /* opacity: 1; */
+  /* transform: translateX(0); */
+  padding: 70px 0 90px;
+}
