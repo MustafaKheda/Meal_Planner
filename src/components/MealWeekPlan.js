@@ -101,7 +101,9 @@ function MealWeekPlan() {
           </div>
           <img className="week_image" src={image} />
           <Typography className="week_card_label">{label}</Typography>
-          <Button href={url}>View Full recipe</Button>
+          <Button href={url} target="_blank">
+            View Full recipe
+          </Button>
           {/* <Typography className="week_card_label"></Typography> */}
         </div>
       ) : null;
