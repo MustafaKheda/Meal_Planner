@@ -1,5 +1,6 @@
 import { combineReducers } from "redux";
 import { Actiontypes } from "./actionType";
+import { act } from "react-dom/test-utils";
 
 const initialState = {
   mealList: [],
@@ -7,6 +8,9 @@ const initialState = {
   dayMeal: [],
   user: [],
   alleregy: [],
+  nextLink: null,
+  prevLinks: [],
+  product: null,
 };
 
 const {
@@ -19,11 +23,22 @@ const {
   SET_ALLEREGY,
   DELETE_MEAL,
   RESET_MEAL,
+  FETCH_NEXT_MEAL,
+  REMOVE_LINKS,
+  FETCH_PREV_MEAL,
+  FETCH_LINK_MEAL,
 } = Actiontypes;
 const mealReducer = (state = initialState, action) => {
+  const { prevLinks } = state;
   switch (action.type) {
     case FETCH_MEAL:
-      return { ...state, mealList: action.payload };
+      const { hit, next, prevLink } = action.payload;
+      return {
+        ...state,
+        mealList: hit,
+        nextLink: next,
+        prevLinks: [prevLink],
+      };
     case REMOVE_MEAL:
       return { ...state, mealList: [] };
     case DAY_MEAL:
@@ -54,6 +69,8 @@ const mealReducer = (state = initialState, action) => {
       return {
         ...state,
         currentUser: {},
+        prevLinks: [],
+        nextLink: null,
       };
     case DELETE_MEAL:
       const filteredItem = state.dayMeal.filter(
@@ -71,6 +88,42 @@ const mealReducer = (state = initialState, action) => {
         ...state,
         dayMeal: filtered,
       };
+    case FETCH_NEXT_MEAL: {
+      const { hit, next, prevLink } = action.payload;
+      return {
+        ...state,
+        mealList: hit,
+        nextLink: next,
+        prevLinks: [...prevLinks, prevLink],
+      };
+    }
+    case FETCH_PREV_MEAL: {
+      const { hit, next, prevLink } = action.payload;
+      const updatedPrevLinks = prevLinks.filter(
+        (item, index) => index !== prevLinks.length - 1
+      );
+      console.log(updatedPrevLinks);
+      return {
+        ...state,
+        mealList: hit,
+        nextLink: next,
+        prevLinks: updatedPrevLinks,
+      };
+    }
+    case REMOVE_LINKS: {
+      return {
+        ...state,
+        nextLink: null,
+        prevLinks: [],
+      };
+    }
+    case FETCH_LINK_MEAL: {
+      console.log(action.payload);
+      return {
+        ...state,
+        product: action.payload,
+      };
+    }
 
     default:
       return state;

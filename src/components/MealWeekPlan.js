@@ -129,9 +129,6 @@ function MealWeekPlan() {
           </Grid>
           <Grid item className="week_header_button_group">
             <Button
-              // color="warning"
-              // variant="contained"
-              // // className="button_reset"
               className="button_all"
               onClick={() => dispatch(resetMeal(currentUser.id))}
             >

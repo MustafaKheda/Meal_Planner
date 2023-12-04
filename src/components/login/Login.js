@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./login.css";
+import "./Login.css";
 import uuid from "react-uuid";
 import {
   Backdrop,
@@ -212,15 +212,6 @@ const Login = () => {
   return (
     <div className="login-container">
       <div className="login-form opacity">
-        {/* <ButtonGroup className="login-form-buttonGroup">
-          <Button className="login-form-button" onClick={handleShowSignUp}>
-            Signup
-          </Button>
-          <Button className="login-form-button" onClick={handleShowLogin}>
-            Signin
-          </Button>
-        </ButtonGroup> */}
-
         <Typography
           textAlign={"center"}
           textTransform={"uppercase"}
@@ -345,33 +336,21 @@ const Login = () => {
           {showSignup ? "signup" : "Login"}
         </Button>
 
-        {showSignup ? (
-          <>
-            <Typography onClick={handleShowLogin} className="login_link">
-              Already have an Account!
-              <Typography color="blue" variant="subtitle">
-                {" "}
-                Signin
-              </Typography>
-            </Typography>
-          </>
-        ) : (
-          <>
-            <Typography onClick={handleShowSignUp} className="login_link">
-              Don't have an account?
-              <Typography color="blue" variant="subtitle">
-                {" "}
-                Signup
-              </Typography>
-            </Typography>
-          </>
-        )}
+        <Typography
+          onClick={showSignup ? handleShowLogin : handleShowSignUp}
+          fontWeight={600}
+          className="login_link"
+        >
+          {showSignup ? "Already have an Account! " : "Don't have an account? "}
+          <Typography color="blue" variant="subtitle">
+            {showSignup ? "Sign in" : "Sign up"}
+          </Typography>
+        </Typography>
       </div>
       <Snackbar
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
         open={open}
         onClose={handleClose}
-        // The message map is an object that contains types of messages, and the type variable will determine which type of message needs to be shown.
         message={messageMap[type]}
       />
       {/* Backdrop to show Circular progress */}
@@ -382,17 +361,6 @@ const Login = () => {
       >
         <CircularProgress size={60} color="inherit" />
       </Backdrop>
-      {/* type === "signup"
-            ? "Signup Successfull"
-            : type === "login"
-            ? "Login Successfull"
-            : type === "userNameExist"
-            ? "This username already exists!"
-            : type === "loginFailed"
-            ? "Password is Wrong"
-            : type === "numberExist"
-            ? "Someone is already registered with this number"
-            : "Please fill the form" */}
     </div>
   );
 };

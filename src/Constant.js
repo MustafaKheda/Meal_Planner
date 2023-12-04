@@ -78,12 +78,6 @@ export const cuisineCard = [
     type: "dishType",
   },
   {
-    id: 3,
-    title: "Side Dish",
-    query: "Side dish",
-    type: "dishType",
-  },
-  {
     id: 4,
     title: "Starter",
     query: "Starter",

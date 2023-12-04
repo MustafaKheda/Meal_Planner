@@ -18,23 +18,22 @@ import { useNavigate } from "react-router-dom";
 import { fetchSearchMeal, removeMeal, setAllergy } from "../Store/action";
 import { api_data } from "./apis/api";
 
-function MealSearch({ mealCardsRef }) {
+function MealSearch({
+  mealCardsRef,
+  state,
+  handleAllergies,
+  handleChange,
+  handleOpenProgress,
+  handleCloseProgress,
+}) {
+  const { query, allergies } = state;
   const dispatch = useDispatch();
   const mealRef = useRef();
   const currentUser = useSelector((state) => state.allMeal?.currentUser);
 
-  const [query, setQuery] = useState("");
-  const [showSearch, setShowSearch] = useState(false);
-  const [open, setOpen] = useState(false);
-  const [allergies, setAllergies] = useState({
-    "Dairy-Free": false,
-    "Egg-Free": false,
-    "Gluten-Free": false,
-    "Peanut-Free": false,
-  });
-  useEffect(() => {
-    if (query == "") dispatch(removeMeal());
-  }, [query]);
+  // useEffect(() => {
+  //   if (query === "") dispatch(removeMeal());
+  // }, [query]);
 
   const data = Object.keys(allergies).filter((allergy) => allergies[allergy]);
   useEffect(() => {
@@ -42,20 +41,25 @@ function MealSearch({ mealCardsRef }) {
   }, [allergies]);
 
   const handleSearch = (e) => {
+    if (query === "") {
+      return;
+    }
+    e.preventDefault();
     dispatch(removeMeal());
+
+    handleOpenProgress();
+
     mealCardsRef?.current.scrollIntoView({ behavior: "smooth" });
-    e.preventDefault();
     dispatch(fetchSearchMeal(query));
-  };
 
-  const handleAllergies = (e) => {
-    e.preventDefault();
-    setAllergies({
-      ...allergies,
-      [e.target.name]: e.target.checked,
-    });
-  };
+    let timerId = setTimeout(() => {
+      handleCloseProgress();
+    }, 2000);
 
+    return () => {
+      clearTimeout(timerId);
+    };
+  };
   return (
     <div className={`meal_planner`}>
       <Grid container className="meal_search" spacing={2}>
@@ -63,6 +67,7 @@ function MealSearch({ mealCardsRef }) {
           <TextField
             // onKeyUp={handleSearch}
             fullWidth
+            name="query"
             className="meal_search_bar"
             InputProps={{
               endAdornment: (
@@ -75,7 +80,7 @@ function MealSearch({ mealCardsRef }) {
               ),
             }}
             placeholder="Search"
-            onChange={(event) => setQuery(event.target.value)}
+            onChange={handleChange}
           />
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={12}>

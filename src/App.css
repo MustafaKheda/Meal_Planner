@@ -26,7 +26,6 @@
 }
 .nav_bar_button:hover {
   border-radius: 35px;
-  transition: all ease-in 0.5s;
   background-color: rgb(45 199 109) !important;
   color: #fff !important;
 }

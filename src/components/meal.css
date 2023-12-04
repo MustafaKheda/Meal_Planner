@@ -62,15 +62,12 @@
   width: 400px !important;
   margin: 0 auto;
 }
-.Meal_Body {
-  height: 200vh;
-  /* padding-top: 100px !important; */
-  /* background-color: black; */
-}
+
 .cuisine_card {
   box-sizing: border-box;
   text-align: center;
   height: 90px;
+  min-width: 90px;
   width: 90px;
   border: 1px solid rgba(0, 0, 0, 0.1);
   box-shadow: none;
@@ -83,8 +80,12 @@
   box-shadow: 3px 4px 10px rgba(0, 0, 0, 0.3) !important ;
 }
 .categories_card {
-  margin-top: 2px !important;
-  /* padding: 5px 25px 0 */
+  width: 100%;
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  padding: 5px 10px;
+  box-sizing: border-box;
   justify-content: space-around;
 }
 .food_card {
@@ -92,15 +93,19 @@
   margin: 20px auto;
   width: 100%;
   min-height: 350px;
+  align-items: center;
 }
 .foods_card {
   margin: 30px;
+  display: flex;
+  min-height: 100vh;
+  justify-content: center;
+  align-items: center;
 }
 .card_actions {
   justify-content: space-between;
 }
 .card_actions p {
-  width: 30%;
   display: flex;
   align-items: center;
 }
@@ -275,7 +280,16 @@
   justify-content: space-between;
   align-items: center;
 }
-.Circularbar {
+.circularbar {
   display: block !important;
   margin: 0 auto;
+}
+.cardHeading {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-wrap: nowrap;
+}
+.buttonGroup {
+  display: flex;
+  justify-content: space-between;
 }

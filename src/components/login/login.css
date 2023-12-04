@@ -2,15 +2,15 @@
 @import url("https://fonts.googleapis.com/css2?family=Freehand&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Rubik+Dirt&display=swap");
 * {
-  /* font-family: "Rubik Dirt", cursive !important; */
   margin: 0;
   padding: 0;
 }
 
 .login-container {
-  /* background-color: #f4f7f5; */
-  position: relative;
-  padding-top: 110px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
 }
 
 .login-container::before {
@@ -20,8 +20,7 @@
   top: 0;
   left: 0;
   width: 100vw;
-  min-height: 800px !important;
-  height: 100vh;
+  height: 100vh !important;
   min-height: max-content;
   background-image: url(../Image/brooke-lark-wMzx2nBdeng-unsplash.png);
   background-size: cover;
@@ -30,18 +29,14 @@
 }
 
 .login-form {
-  /* transition: all 5s ease-in 2s; */
-  /* font-family: "Rubik Dirt", cursive !important; */
   margin: 0 auto;
   backdrop-filter: blur(30px);
   padding: 10px 20px 40px;
   width: 350px;
   min-height: 450px;
-  /* padding: 20px; */
   background-color: rgba(255, 255, 255, 0.7);
   border-radius: 5px;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
-  overflow: hidden;
 }
 .login-form-buttonGroup {
   width: 100% !important;
