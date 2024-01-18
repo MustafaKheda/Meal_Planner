@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Login.css";
-import uuid from "react-uuid";
+import { v4 as uuid } from "uuid";
 import {
   Backdrop,
   Button,
@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { setCurrentUser, setUser } from "../../Store/action";
+import { setCurrentUser, setUser, unSetCurrentUser } from "../../Store/action";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import PDFfile from "../PDFfile";
 import DialpadIcon from "@mui/icons-material/Dialpad";
@@ -39,6 +39,9 @@ const Login = () => {
     open: false,
     type: "",
   });
+  useEffect(() => {
+    dispatch(unSetCurrentUser());
+  }, []);
 
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -60,7 +63,7 @@ const Login = () => {
   const { username, password, mobileNumber, email } = auth;
   const { open, type } = openSnackBar;
   const { passwordLogin, any } = login;
-
+  console.log(auth);
   useEffect(() => {
     if (type === "login" || type === "signup") {
       setTimeout(() => {
@@ -189,7 +192,13 @@ const Login = () => {
           open: true,
           type: "signup",
         });
-        setAuth({ password: "", username: "", email: "", mobileNumber: "" });
+        setAuth({
+          id: uuid(),
+          password: "",
+          username: "",
+          email: "",
+          mobileNumber: "",
+        });
       }
     } else {
       // to send message the to fill the form

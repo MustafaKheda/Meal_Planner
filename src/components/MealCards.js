@@ -37,6 +37,7 @@ import {
   fetchDishTypeMeal,
   fetchSearchMeal,
   handleFetchMealByLink,
+  handleRemoveProduct,
   nextPage,
   prevPage,
   removeLinks,
@@ -46,6 +47,7 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { all } from "axios";
 import uuid from "react-uuid";
+import WeekMealDialog from "./WeekMealDialog";
 
 const MealCards = forwardRef(
   ({ state, handleCloseProgress, handleOpenProgress }, ref) => {
@@ -55,12 +57,24 @@ const MealCards = forwardRef(
     const timerRef = useRef(null);
     const menuRef = useRef(null);
     const cardsRef = useRef(null);
-    const mealList = useSelector((state) => state.allMeal?.mealList);
-    const userMeal = useSelector((state) => state.allMeal?.dayMeal);
-    const nextLink = useSelector((state) => state.allMeal?.nextLink);
-    const currentUser = useSelector((state) => state.allMeal?.currentUser);
-    const alleregy = useSelector((state) => state.allMeal?.alleregy);
-    const prevLinks = useSelector((state) => state.allMeal?.prevLinks);
+    const allMeal = useSelector((store) => store.allMeal);
+    // const mealList = useSelector((state) => state.allMeal?.mealList);
+    // const userMeal = useSelector((state) => state.allMeal?.dayMeal);
+    // const nextLink = useSelector((state) => state.allMeal?.nextLink);
+    // const currentUser = useSelector((state) => state.allMeal?.currentUser);
+    // const alleregy = usetSelector((state) => state.allMeal?.alleregy);
+    // const prevLinks = useSelector((state) => state.allMeal?.prevLinks);
+    const {
+      mealList,
+      nextLink,
+      userMeal,
+      currentUser,
+      alleregy,
+      prevLinks,
+      totalNumberOfPage,
+      currentPage,
+    } = allMeal;
+
     //Use States
     const [apiData, setApiData] = useState([]);
     //state show the ingredient list in the dialog box
@@ -76,9 +90,9 @@ const MealCards = forwardRef(
       type: "error",
     });
 
-    useEffect(() => {
-      dispatch(removeLinks());
-    }, []);
+    // useEffect(() => {
+    //   dispatch(removeLinks());
+    // }, []);
 
     const [userData, setUserData] = useState({
       id: "",
@@ -168,7 +182,7 @@ const MealCards = forwardRef(
       setUserData({
         ...userData,
         id: uuid(),
-        userId: currentUser.id,
+        userId: currentUser?.id,
         label: label,
         uriID: uriID,
         images: images,
@@ -189,7 +203,7 @@ const MealCards = forwardRef(
       if (userData.weekDay !== "" && userData.mealType !== "") {
         setOpenForm(false);
         // to check if the meal is already selected by user for same time and same day
-        const filterDayWise = userMeal.some(
+        const filterDayWise = userMeal?.some(
           (meal) =>
             meal.userId === userData.userId &&
             meal.weekDay === userData.weekDay &&
@@ -221,13 +235,13 @@ const MealCards = forwardRef(
         });
       }
     };
-    const handleOpenProduct = ({ self }) => {
+    const handleOpenProduct = async ({ self }, label) => {
+      dispatch(handleRemoveProduct());
       const { href } = self;
-      dispatch(handleFetchMealByLink(href));
-      navigate("/product");
+      await dispatch(handleFetchMealByLink(href));
+      navigate(`/product/${label}`);
     };
     const handleSearchMeal = (query, type) => {
-      console.log(cardsRef);
       dispatch(removeMeal());
       handleOpenProgress();
       let timerId;
@@ -262,8 +276,6 @@ const MealCards = forwardRef(
       );
       return filtered;
     };
-
-    const handleTransition = (props) => <Slide direction="up" {...props} />;
 
     return (
       <div className="meal_cards">
@@ -328,13 +340,10 @@ const MealCards = forwardRef(
                 } = recipe;
                 return (
                   <Grid item xs={12} sm={6} md={4} lg={3}>
-                    <Card
-                      className="food_card"
-                      key={index}
-                      onClick={() => handleOpenProduct(_links)}
-                    >
+                    <Card className="food_card" key={index}>
                       <CardActionArea>
                         <CardMedia
+                          onClick={() => handleOpenProduct(_links, label)}
                           className="card_image"
                           component="img"
                           image={image}
@@ -350,7 +359,11 @@ const MealCards = forwardRef(
                           >
                             {label}
                           </Typography>
-                          <Typography variant="body2" color="text.secondary">
+                          <Typography
+                            variant="body2"
+                            color="text.secondary"
+                            textTransform={"capitalize"}
+                          >
                             Kcal:{" "}
                             {Math.floor(
                               recipe.totalNutrients.ENERC_KCAL.quantity /
@@ -396,17 +409,27 @@ const MealCards = forwardRef(
           )}
         </div>
 
-        <div className="buttonGroup">
-          <Button
-            disabled={prevLinks.length < 2 ? true : false}
-            onClick={handlePrevPage}
-          >
-            Prev Page
-          </Button>
-          <Button disabled={nextLink === null} onClick={handleNextPage}>
-            Next Page
-          </Button>
-        </div>
+        {totalNumberOfPage > 1 && (
+          <div className="buttonGroup">
+            <Button
+              disabled={prevLinks.length < 2 ? true : false}
+              variant="outlined"
+              onClick={handlePrevPage}
+            >
+              Prev Page
+            </Button>
+            <Typography fontWeight={600} fontSize={"24px"}>
+              {`${currentPage}/${totalNumberOfPage}`}
+            </Typography>
+            <Button
+              disabled={nextLink === null}
+              variant="outlined"
+              onClick={handleNextPage}
+            >
+              Next Page
+            </Button>
+          </div>
+        )}
 
         {/* // Ingredient list */}
         <Dialog
@@ -482,6 +505,13 @@ const MealCards = forwardRef(
             </Button>
           </DialogActions>
         </Dialog>
+        <WeekMealDialog
+          handleCloseForm={handleCloseForm}
+          handleFormData={handleFormData}
+          handleSubmit={handleSubmit}
+          userData={userData}
+          openForm={openForm}
+        />
         {/* Snackbar for validation of the dailog box */}
         <Snackbar
           anchorOrigin={{ vertical: "top", horizontal: "center" }}

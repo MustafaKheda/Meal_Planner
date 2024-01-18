@@ -19,12 +19,13 @@ import { useDispatch } from "react-redux";
 import { unSetCurrentUser, deleteMeal, resetMeal } from "../Store/action";
 import { useNavigate } from "react-router-dom";
 import PDFfile from "./PDFfile";
-import { PDFDownloadLink } from "@react-pdf/renderer";
 import Header from "./Header";
+import jsPDF from "jspdf";
 
 function MealWeekPlan() {
-  const weekMealRef = useRef();
-  const dayMeal = useSelector((state) => state.allMeal.dayMeal);
+  const weekMealRef = useRef(null);
+  const pdfRef = useRef(null);
+  const dayMeal = useSelector((state) => state?.allMeal?.dayMeal);
   const currentUser = useSelector((state) => state.allMeal.currentUser);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -33,6 +34,36 @@ function MealWeekPlan() {
       navigate("/");
     }
   }, [currentUser]);
+  const [weekDates, setWeekDates] = useState([]);
+  console.log(pdfRef);
+  const value = false;
+  useEffect(() => {
+    const getCurrentWeekDates = () => {
+      const today = new Date();
+      const startOfWeek = new Date(today);
+      const dayOfWeek = today.getDay();
+
+      // Calculate the start of the week (Monday)
+      startOfWeek.setDate(
+        today.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1)
+      );
+
+      // Create an array of objects with each day of the week and its corresponding date
+      const weekArray = Array.from({ length: 6 }, (_, index) => {
+        const currentDay = new Date(startOfWeek);
+        currentDay.setDate(startOfWeek.getDate() + index);
+        return {
+          weekDay: currentDay.toLocaleDateString("en-US", { weekday: "long" }),
+          date: currentDay.toISOString().split("T")[0],
+        };
+      });
+
+      return weekArray;
+    };
+
+    const weekArray = getCurrentWeekDates();
+    setWeekDates(weekArray);
+  }, []);
   //HookS
   const [open, setOpen] = useState(false);
   const handleClose = () => {
@@ -74,12 +105,45 @@ function MealWeekPlan() {
       const { userId, weekDay, meals } = obj;
       return { userId, weekDay, meals };
     });
+    const daysOfWeekOrder = [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday",
+    ];
 
+    // Sort the mergedArr based on the order of daysOfWeek
+    mergedArr.sort((a, b) => {
+      return (
+        daysOfWeekOrder.indexOf(a.weekDay) - daysOfWeekOrder.indexOf(b.weekDay)
+      );
+    });
     return mergedArr;
   }
+  const handleGeneratePdf = () => {
+    console.log(pdfRef);
+    const doc = new jsPDF("l", "px", "a4");
 
-  const mergedArray = mergeObjects(dayMeal);
-
+    doc.html(pdfRef.current, {
+      html2canvas: {
+        scale: 0.45, // Adjust the scaling factor as needed
+      },
+      async callback(doc) {
+        await doc.save(
+          `Meal Plan-${currentUser.username}-${
+            new Date().toISOString().split("T")[0]
+          }`
+        );
+      },
+    });
+  };
+  const currentUserData = dayMeal.filter(
+    (arr) => arr.userId === currentUser.id
+  );
+  const mergedArray = mergeObjects(currentUserData);
   // function count the number of item in the array for particular meal type
   const countNumberOfMeal = (meals, MealType) => {
     const mealCount = meals?.filter(
@@ -109,14 +173,19 @@ function MealWeekPlan() {
       ) : null;
     });
   };
-
-  // get the data for current user
-  const currentUserMealData = mergedArray.filter(
-    (arr) => arr.userId === currentUser.id
-  );
-  const currentUserData = dayMeal.filter(
-    (arr) => arr.userId === currentUser.id
-  );
+  const handleFetchWeekDay = (weekDay) => {
+    const day = weekDates.find((weekDate) => weekDate?.weekDay === weekDay);
+    return (
+      <>
+        <Typography fontWeight={600} variant="h5">
+          {day.weekDay}
+        </Typography>
+        <Typography color={"text.secondary"} variant="subtitle1">
+          {day.date}
+        </Typography>
+      </>
+    );
+  };
   return Object.keys(currentUser).length > 0 ? (
     <>
       <Header />
@@ -134,25 +203,14 @@ function MealWeekPlan() {
             >
               Reset Weekly Plan
             </Button>
-            <PDFDownloadLink document={<PDFfile data={currentUserData} />}>
-              {({ loading }) =>
-                loading ? (
-                  <Button className="button_all" endIcon>
-                    Loading Download...
-                    <DownloadIcon />
-                  </Button>
-                ) : (
-                  <Button className="button_all" endIcon>
-                    Download
-                    <DownloadIcon />
-                  </Button>
-                )
-              }
-            </PDFDownloadLink>
+            <Button className="button_all" onClick={handleGeneratePdf} endIcon>
+              Download
+              <DownloadIcon />
+            </Button>
           </Grid>
         </Grid>
         <div ref={weekMealRef}>
-          {currentUserMealData?.map((meal) => {
+          {mergedArray?.map((meal) => {
             const { meals } = meal;
             const BreakFast = "BreakFast";
             const Lunch = "Lunch";
@@ -169,7 +227,10 @@ function MealWeekPlan() {
                   <Grid item xs={2} sm={2} md={2} lg={2}>
                     <Card className="week_header">
                       <CardHeader
-                        title={meal.weekDay}
+                        title={
+                          weekDates.length > 0 &&
+                          handleFetchWeekDay(meal.weekDay)
+                        }
                         className="week_card_header"
                       ></CardHeader>
                     </Card>
@@ -254,6 +315,15 @@ function MealWeekPlan() {
               </Paper>
             );
           })}
+        </div>
+        <div style={{ visibility: "hidden", overflow: "hidden", height: 0 }}>
+          {
+            <PDFfile
+              ref={pdfRef}
+              mealsData={dayMeal}
+              currentUser={currentUser}
+            />
+          }
         </div>
         <Snackbar
           anchorOrigin={{ vertical: "top", horizontal: "center" }}

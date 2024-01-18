@@ -33,19 +33,21 @@ export const fetchSearchMeal = (query, type) => {
       from: response?.data?.from,
       to: response?.data?.to,
     };
-    console.log(response);
+
+    const totalNumberOfPage = Math.ceil(response.data.count / 20);
     // Object.keys(response.data._links);
     const nextLink =
       Object.keys(response?.data?._links).length > 0
         ? response?.data?._links?.next
         : null;
-    console.log(Object.keys(response?.data?._links).length);
     dispatch({
       type: Actiontypes.FETCH_MEAL,
       payload: {
         hit: response?.data?.hits,
         next: nextLink,
         prevLink,
+        totalNumberOfPage,
+        currentPage: 1,
       },
     });
   };
@@ -68,14 +70,16 @@ export const fetchCuisineMeal = (query) => {
       from: response?.data?.from,
       to: response?.data?.to,
     };
-    Object.keys(response.data._links);
-    console.log(Object.keys(response.data._links.next).length);
+    const totalNumberOfPage = Math.ceil(response.data.count / 20);
+
     dispatch({
       type: Actiontypes.FETCH_MEAL,
       payload: {
         hit: response?.data?.hits,
         next: response?.data?._links?.next,
         prevLink,
+        totalNumberOfPage,
+        currentPage: 1,
       },
     });
   };
@@ -92,15 +96,16 @@ export const fetchDishTypeMeal = (query) => {
       from: response?.data?.from,
       to: response?.data?.to,
     };
-    // Object.keys(response.data._links);
-    console.log(response?.data._links.next);
-    // console.log(Object?.keys(response?.data._links.next).length);
+
+    const totalNumberOfPage = Math.ceil(response.data.count / 20);
     dispatch({
       type: Actiontypes.FETCH_MEAL,
       payload: {
         hit: response?.data?.hits,
         next: response?.data?._links?.next,
         prevLink,
+        totalNumberOfPage,
+        currentPage: 1,
       },
     });
   };
@@ -184,7 +189,6 @@ export const handleFetchMealByLink = (href) => {
   console.log(href);
   return async function (dispatch) {
     const response = await axios.get(href);
-    console.log(response);
     dispatch({
       type: Actiontypes.FETCH_LINK_MEAL,
       payload: response?.data?.recipe,
@@ -204,3 +208,9 @@ export const handleFetchMealByLink = (href) => {
 //     dispatch({ type: Actiontypes.FETCH_MEAL, payload: response?.data?.hits });
 //   };
 // };
+
+export const handleRemoveProduct = () => {
+  return {
+    type: Actiontypes.REMOVE_LINK_MEAL,
+  };
+};

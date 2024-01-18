@@ -1,108 +1,79 @@
-import React, { useEffect } from "react";
-import { UseSelector, useSelector } from "react-redux/es/hooks/useSelector";
-import {
-  Page,
-  Text,
-  Image,
-  Document,
-  StyleSheet,
-  View,
-} from "@react-pdf/renderer";
-import unsplash from "./Image/unsplash.jpg";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-} from "@mui/material";
-const styles = StyleSheet.create({
-  body: {
-    paddingVertical: 30,
-    paddingHorizontal: 30,
-  },
-  text: {
-    margin: 15,
-    fontSize: 20,
-    textAlign: "justify",
-  },
-  header: {
-    fontSize: 20,
-    marginBottom: 20,
-    textAlign: "center",
-  },
-  pageNumber: {
-    position: "absolute",
-    bottom: 1,
-    left: 0,
-    right: 0,
-    textAlign: "center",
-    color: "grey",
-  },
-});
-const PDFfile = ({ data }) => {
-  console.log("props", data);
-  data?.map((meal) => console.log(meal));
+import React, { forwardRef } from "react";
+import { useSelector } from "react-redux";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import { Link } from "react-router-dom";
+import { Typography } from "@mui/material";
 
+const testFile = forwardRef(({ mealsData }, ref) => {
+  const dayMeal = useSelector((state) => state?.allMeal?.dayMeal);
+  const currentUser = useSelector((state) => state.allMeal.currentUser);
+
+  const sortedMeal = () => {
+    const sortMeal = dayMeal.filter((meal) => meal.userId === currentUser?.id);
+    const daysOfWeekOrder = [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday",
+    ];
+    sortMeal.sort((a, b) => {
+      return (
+        daysOfWeekOrder.indexOf(a.weekDay) - daysOfWeekOrder.indexOf(b.weekDay)
+      );
+    });
+    return sortMeal;
+  };
   return (
-    <Document>
-      <Page size="A4" style={styles.body}>
-        <Text>
-          <table>
-            <thead>
-              <th>Week Day</th>
-              <th>Meal Type</th>
-              <th>Label</th>
-            </thead>
-            <tbody>
-              <tr>
-                <td> Monday</td>
-                <td> Lunch</td>
-                <td> paneer</td>
-              </tr>
-            </tbody>
-          </table>
-        </Text>
-        {/* <View>
-          <Table sx={{ minWidth: 650 }} aria-label="simple table">
-            <TableHead className="TableHeader">
-              <TableRow>
-                <TableCell className="TableHeading" align="center">
-                  Week Day
-                </TableCell>
-                <TableCell className="TableHeading" align="center">
-                  Week Day
-                </TableCell>
-                <TableCell className="TableHeading" align="center">
-                  Label
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              <TableRow>
-                <TableCell className="TableHeading" align="center">
-                  Monday
-                </TableCell>
-                <TableCell className="TableHeading" align="center">
-                  Lunch
-                </TableCell>
-                <TableCell className="TableHeading" align="center">
-                  Panner
-                </TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </View> */}
-        <Text
-          style={styles.pageNumber}
-          render={({ pageNumber, totalPages }) =>
-            ` ${pageNumber}/ ${totalPages}`
-          }
-        />
-      </Page>
-    </Document>
+    <div ref={ref}>
+      <Typography variant="h5" textAlign={"center"} p={3}>
+        Meal Plan For {currentUser.username}
+      </Typography>
+      <TableContainer
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <Table sx={{ width: 1000 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>S.No.</TableCell>
+              <TableCell>Week Day</TableCell>
+              <TableCell>Meal Type</TableCell>
+              <TableCell>Label</TableCell>
+              <TableCell>URL</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {sortedMeal().map((meal, index) => {
+              console.log(meal);
+              const { weekDay, mealType, label, url } = meal;
+              return (
+                <TableRow
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <TableCell>{index + 1}</TableCell>
+                  <TableCell>{weekDay}</TableCell>
+                  <TableCell>{mealType}</TableCell>
+                  <TableCell>{label}</TableCell>
+                  <TableCell>{url}</TableCell>
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </div>
   );
-};
+});
 
-export default PDFfile;
+export default testFile;

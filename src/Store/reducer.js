@@ -11,6 +11,8 @@ const initialState = {
   nextLink: null,
   prevLinks: [],
   product: null,
+  currentPage: null,
+  totalNumberOfPage: null,
 };
 
 const {
@@ -27,17 +29,21 @@ const {
   REMOVE_LINKS,
   FETCH_PREV_MEAL,
   FETCH_LINK_MEAL,
+  REMOVE_LINK_MEAL,
 } = Actiontypes;
 const mealReducer = (state = initialState, action) => {
   const { prevLinks } = state;
   switch (action.type) {
     case FETCH_MEAL:
-      const { hit, next, prevLink } = action.payload;
+      const { hit, next, prevLink, totalNumberOfPage, currentPage } =
+        action.payload;
       return {
         ...state,
         mealList: hit,
         nextLink: next,
         prevLinks: [prevLink],
+        totalNumberOfPage,
+        currentPage,
       };
     case REMOVE_MEAL:
       return { ...state, mealList: [] };
@@ -71,6 +77,9 @@ const mealReducer = (state = initialState, action) => {
         currentUser: {},
         prevLinks: [],
         nextLink: null,
+        mealList: [],
+        currentPage: null,
+        totalNumberOfPage: null,
       };
     case DELETE_MEAL:
       const filteredItem = state.dayMeal.filter(
@@ -95,6 +104,7 @@ const mealReducer = (state = initialState, action) => {
         mealList: hit,
         nextLink: next,
         prevLinks: [...prevLinks, prevLink],
+        currentPage: state.currentPage + 1,
       };
     }
     case FETCH_PREV_MEAL: {
@@ -108,6 +118,7 @@ const mealReducer = (state = initialState, action) => {
         mealList: hit,
         nextLink: next,
         prevLinks: updatedPrevLinks,
+        currentPage: state.currentPage - 1,
       };
     }
     case REMOVE_LINKS: {
@@ -118,10 +129,15 @@ const mealReducer = (state = initialState, action) => {
       };
     }
     case FETCH_LINK_MEAL: {
-      console.log(action.payload);
       return {
         ...state,
         product: action.payload,
+      };
+    }
+    case REMOVE_LINK_MEAL: {
+      return {
+        ...state,
+        product: null,
       };
     }
 
