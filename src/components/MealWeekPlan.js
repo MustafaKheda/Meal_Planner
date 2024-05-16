@@ -21,17 +21,12 @@ import { useNavigate } from "react-router-dom";
 import PDFfile from "./PDFfile";
 import Header from "./Header";
 import jsPDF from "jspdf";
-import mergedObjWorker from "./mergeObjectes.worker";
-import WebWorker from "./WebWorker";
-import PDFWorker from "./PDFWorker";
+
 function MealWeekPlan() {
-  const worker = new WebWorker(mergedObjWorker);
-  const pdfWorker = new WebWorker(PDFWorker);
   const weekMealRef = useRef(null);
   const pdfRef = useRef(null);
   const dayMeal = useSelector((state) => state?.allMeal?.dayMeal);
-  const currentUser = useSelector((state) => state?.allMeal?.currentUser);
-
+  const currentUser = useSelector((state) => state.allMeal.currentUser);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   useEffect(() => {
@@ -40,8 +35,7 @@ function MealWeekPlan() {
     }
   }, [currentUser]);
   const [weekDates, setWeekDates] = useState([]);
-  const [mealData, setMealData] = useState([]);
-
+  console.log(pdfRef);
   const value = false;
   useEffect(() => {
     const getCurrentWeekDates = () => {
@@ -76,22 +70,63 @@ function MealWeekPlan() {
     setOpen(false);
   };
 
-  async function mergeObjects (arr) {
-    // const blob = new Blob(PDF)
-    // console.log(URL.createObjectURL(blob));
-    // console.log(blob);
-    worker.postMessage(arr);
-    worker.onmessage = (e)=>{
-      setMealData(e.data);
-    } 
+  function mergeObjects(arr) {
+    const mergedObj = {};
+    arr.forEach((item) => {
+      const {
+        id,
+        userId,
+        weekDay,
+        label,
+        mealType,
+        uriID,
+        images,
+        image,
+        url,
+      } = item;
+      const key = userId + "_" + weekDay;
+
+      if (!mergedObj[key]) {
+        mergedObj[key] = { userId, weekDay, meals: [] };
+      }
+
+      mergedObj[key].meals.push({
+        id,
+        label,
+        mealType,
+        uriID,
+        images,
+        image,
+        url,
+      });
+    });
+
+    const mergedArr = Object.values(mergedObj).map((obj) => {
+      const { userId, weekDay, meals } = obj;
+      return { userId, weekDay, meals };
+    });
+    const daysOfWeekOrder = [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday",
+    ];
+
+    // Sort the mergedArr based on the order of daysOfWeek
+    mergedArr.sort((a, b) => {
+      return (
+        daysOfWeekOrder.indexOf(a.weekDay) - daysOfWeekOrder.indexOf(b.weekDay)
+      );
+    });
+    return mergedArr;
   }
   const handleGeneratePdf = () => {
-  const code =  pdfRef.current.toString();
-  const blob = new Blob(["(" + code + ")()"]);
-  console.log(blob);
-  const url =  URL.createObjectURL(blob);
-  console.log(url);
+    console.log(pdfRef);
     const doc = new jsPDF("l", "px", "a4");
+
     doc.html(pdfRef.current, {
       html2canvas: {
         scale: 0.45, // Adjust the scaling factor as needed
@@ -108,11 +143,7 @@ function MealWeekPlan() {
   const currentUserData = dayMeal.filter(
     (arr) => arr.userId === currentUser.id
   );
-
-  useEffect(()=>{
-    mergeObjects(currentUserData);
-  },[dayMeal]);
- 
+  const mergedArray = mergeObjects(currentUserData);
   // function count the number of item in the array for particular meal type
   const countNumberOfMeal = (meals, MealType) => {
     const mealCount = meals?.filter(
@@ -179,7 +210,7 @@ function MealWeekPlan() {
           </Grid>
         </Grid>
         <div ref={weekMealRef}>
-          {mealData?.map((meal) => {
+          {mergedArray?.map((meal) => {
             const { meals } = meal;
             const BreakFast = "BreakFast";
             const Lunch = "Lunch";
@@ -289,7 +320,7 @@ function MealWeekPlan() {
           {
             <PDFfile
               ref={pdfRef}
-              mealsData={currentUserData}
+              mealsData={dayMeal}
               currentUser={currentUser}
             />
           }
