@@ -1,4 +1,4 @@
-import React, { forwardRef } from "react";
+import React, { forwardRef, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -9,29 +9,40 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Link } from "react-router-dom";
 import { Typography } from "@mui/material";
+import WebWorker from "./WebWorker";
+import Worker from "./Worker";
 
-const testFile = forwardRef(({ mealsData }, ref) => {
-  const dayMeal = useSelector((state) => state?.allMeal?.dayMeal);
-  const currentUser = useSelector((state) => state.allMeal.currentUser);
+const testFile = forwardRef(({ mealsData,currentUser }, ref) => {
 
-  const sortedMeal = () => {
-    const sortMeal = dayMeal.filter((meal) => meal.userId === currentUser?.id);
-    const daysOfWeekOrder = [
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-      "Sunday",
-    ];
-    sortMeal.sort((a, b) => {
-      return (
-        daysOfWeekOrder.indexOf(a.weekDay) - daysOfWeekOrder.indexOf(b.weekDay)
-      );
-    });
-    return sortMeal;
-  };
+  const [sortedMeals,setSortedMeals] = useState([]);
+  // const dayMeal = useSelector((state) => state?.allMeal?.dayMeal);
+  // const currentUser = useSelector((state) => state.allMeal.currentUser);
+  
+ 
+    
+  useEffect(() => {
+    // Create a new web worker
+    const worker = new WebWorker(Worker)// Replace YourWorker with the actual name of your web worker file
+
+    // Function to sort meals and set the state
+    const sortAndSetMeals = () => {
+      worker.postMessage({ mealsData });
+
+      // Set up the event listener for the worker's response
+      worker.onmessage = (e) => {
+        setSortedMeals(e.data);
+      };
+    };
+
+    // Call the sorting function
+    sortAndSetMeals();
+
+    // Cleanup: Terminate the web worker when the component unmounts
+    return () => {
+      worker.terminate();
+    };
+  }, []);
+  
   return (
     <div ref={ref}>
       <Typography variant="h5" textAlign={"center"} p={3}>
@@ -54,18 +65,18 @@ const testFile = forwardRef(({ mealsData }, ref) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {sortedMeal().map((meal, index) => {
-              console.log(meal);
+            {sortedMeals.map((meal, index) => {
+         
               const { weekDay, mealType, label, url } = meal;
               return (
-                <TableRow
+                <TableRow key={meal?.id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell>{index + 1}</TableCell>
                   <TableCell>{weekDay}</TableCell>
                   <TableCell>{mealType}</TableCell>
                   <TableCell>{label}</TableCell>
-                  <TableCell>{url}</TableCell>
+                  <TableCell color="blue">{url}</TableCell>
                 </TableRow>
               );
             })}
