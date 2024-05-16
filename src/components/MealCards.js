@@ -96,7 +96,7 @@ const MealCards = forwardRef(
 
     const [userData, setUserData] = useState({
       id: "",
-      userId: "",
+      userId: 1,
       label: "",
       weekDay: "",
       mealType: "",
@@ -111,7 +111,7 @@ const MealCards = forwardRef(
       setOpenForm(false);
       setUserData({
         id: "",
-        userId: "",
+        userId: 1,
         label: "",
         weekDay: "",
         mealType: "",
