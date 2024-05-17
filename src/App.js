@@ -7,15 +7,13 @@ import MealSearch from "./components/MealSearch";
 import MealCards from "./components/MealCards";
 import Product from "./components/Product";
 import PDFfile from "./components/PDFfile";
-import { Typography } from "@mui/material";
 
 function App() {
   return (
     <div className="App">
-      <Typography>Hello World</Typography>
       <Routes>
+        <Route path="/" exact element={<Login />} />
         <Route path="/mealplanner" exact element={<Mealplanner />}>
-          {/* <Route path="/" exact element={<Login />} /> */}
           <Route path="mealsearch" element={<MealSearch />} />
           <Route path="mealview" element={<MealCards />} />
         </Route>
