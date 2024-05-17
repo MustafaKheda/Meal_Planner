@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.css": "/Meal_Planner/static/css/main.f1e5454e.css",
+    "main.js": "/Meal_Planner/static/js/main.ca549d47.js",
+    "static/js/498.78f6f5fa.chunk.js": "/Meal_Planner/static/js/498.78f6f5fa.chunk.js",
+    "static/js/703.598885db.chunk.js": "/Meal_Planner/static/js/703.598885db.chunk.js",
+    "static/js/598.7cf305cb.chunk.js": "/Meal_Planner/static/js/598.7cf305cb.chunk.js",
+    "static/media/brooke-lark-wMzx2nBdeng-unsplash.png": "/Meal_Planner/static/media/brooke-lark-wMzx2nBdeng-unsplash.2a88fa4e19ab30bb355f.png",
+    "static/media/BG.jpg": "/Meal_Planner/static/media/BG.af0babc8147cd355b50a.jpg",
+    "index.html": "/Meal_Planner/index.html",
+    "main.f1e5454e.css.map": "/Meal_Planner/static/css/main.f1e5454e.css.map",
+    "main.ca549d47.js.map": "/Meal_Planner/static/js/main.ca549d47.js.map",
+    "498.78f6f5fa.chunk.js.map": "/Meal_Planner/static/js/498.78f6f5fa.chunk.js.map",
+    "703.598885db.chunk.js.map": "/Meal_Planner/static/js/703.598885db.chunk.js.map",
+    "598.7cf305cb.chunk.js.map": "/Meal_Planner/static/js/598.7cf305cb.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f1e5454e.css",
+    "static/js/main.ca549d47.js"
+  ]
+}
