@@ -3,7 +3,6 @@
   color: #000 !important;
 }
 .nav_bar_button_group {
-  width: 50%;
   display: flex;
   justify-content: space-around;
 }
@@ -28,5 +27,5 @@
   border-radius: 35px;
   background-color: rgb(45 199 109) !important;
   color: #fff !important;
-  font-family: 'Times New Roman', Times, serif;
+  font-family: "Times New Roman", Times, serif;
 }

@@ -279,18 +279,27 @@ const MealCards = forwardRef(
 
     return (
       <div className="meal_cards">
-        <Typography
-          className="meal_card_header"
-          textTransform={"uppercase"}
-          fontWeight={"700"}
-          variant="h5"
-          component="div"
+        <Grid
+          flexDirection={{ xs: "column", sm: "row" }}
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
         >
-          Category Type
+          <Typography
+            className="meal_card_header"
+            textTransform={"uppercase"}
+            fontWeight={"700"}
+            variant="h5"
+            component="div"
+          >
+            Category Type
+          </Typography>
           <Button className="button_all" onClick={() => navigate("/weekplan")}>
             View Weekly Meal Plan
           </Button>
-        </Typography>
+        </Grid>
         <div ref={menuRef} className="categories_card">
           {cuisineCard &&
             cuisineCard.map((item, index) => {

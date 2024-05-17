@@ -165,7 +165,7 @@ function Product() {
   return (
     <>
       <Header />
-      <Box mt={10} px={5}>
+      <Box mt={10} px={5} mb={5}>
         <Grid container justifyContent={"space-between"} pt={3}>
           <Grid item container justifyContent={"center"} xs={12} md={6}>
             <Image src={image} width={550} fit="cover" />
@@ -190,7 +190,7 @@ function Product() {
               <Grid container mt={1} spacing={2}>
                 <Grid
                   item
-                  xs={12}
+                  xs={4}
                   sm={4}
                   flexDirection={"column"}
                   display={"flex"}
@@ -204,7 +204,7 @@ function Product() {
                 </Grid>
                 <Grid
                   item
-                  xs={12}
+                  xs={4}
                   sm={4}
                   flexDirection={"column"}
                   display={"flex"}
@@ -222,7 +222,7 @@ function Product() {
                 </Grid>
                 <Grid
                   item
-                  xs={12}
+                  xs={4}
                   sm={4}
                   flexDirection={"column"}
                   display={"flex"}
@@ -267,9 +267,9 @@ function Product() {
               ))}
             </Grid>
 
-            <Grid container pt={3} pb={1} gap={2}>
+            <Grid container pt={3} pb={1} columnSpacing={4} rowGap={1}>
               {NutritionArray.map((key) => (
-                <Grid item>
+                <Grid item xs={4} sm="auto">
                   <NutritionalCard
                     key={key}
                     label={totalNutrients[key].label}

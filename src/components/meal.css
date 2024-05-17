@@ -26,14 +26,15 @@
   height: 500px;
   padding: 15px;
   background-size: cover;
+  display: flex;
+  align-items: center;
 }
 .meal_cards {
   margin: 10px 15px;
 }
 .meal_search {
-  justify-content: center;
-  margin: 150px 450px !important;
-  width: 50% !important;
+  justify-content: flex-end;
+  align-items: flex-end;
 }
 
 .text_center {
@@ -45,6 +46,8 @@
   border-radius: 35px;
   height: 45px !important;
   border: none !important;
+  width: 400px;
+  max-width: 500px !important;
 }
 .meal_search_bar .MuiInputBase-colorPrimary {
   height: inherit;
@@ -86,7 +89,6 @@
   overflow-x: auto;
   padding: 5px 10px;
   box-sizing: border-box;
-  justify-content: space-around;
 }
 .food_card {
   box-sizing: border-box;
@@ -276,9 +278,6 @@
 }
 
 .meal_card_header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
 .circularbar {
   display: block !important;

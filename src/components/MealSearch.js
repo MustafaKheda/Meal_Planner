@@ -62,9 +62,23 @@ function MealSearch({
   };
   return (
     <div className={`meal_planner`}>
-      <Grid container className="meal_search" spacing={2}>
-        <Grid item xs={10} sm={10} md={10} lg={10}>
+      <Grid
+        container
+        className="meal_search"
+        flexDirection={"column"}
+        alignItems={{
+          xs: "center",
+          sm: "center",
+          md: "center",
+          lg: "center",
+        }}
+        ml={{ xs: 0, sm: 20, md: 10, lg: 20 }}
+      >
+        <Grid item xs={12} sm={8} md={6} lg={6}>
           <TextField
+            sx={{
+              minWidth: { xs: "100%", sm: "100%", md: 400, lg: 400 },
+            }}
             // onKeyUp={handleSearch}
             fullWidth
             name="query"
@@ -83,7 +97,7 @@ function MealSearch({
             onChange={handleChange}
           />
         </Grid>
-        <Grid item xs={12} sm={12} md={12} lg={12}>
+        <Grid item xs={12} sm={4} md={6} lg={6}>
           <FormControl fullWidth component="fieldset" ref={mealRef}>
             <FormLabel component="legend">Allergies</FormLabel>
 

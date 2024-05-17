@@ -13,11 +13,12 @@ function Header() {
   return (
     <AppBar className="bar">
       <Toolbar className="nav_bar">
-        <Typography variant="h6" noWrap>
+        <Typography variant="h6" noWrap flexGrow={1}>
           Meal Planner
         </Typography>
         <Typography className="nav_bar_button_group" component={"div"}>
           <Button
+            sx={{ ml: 5 }}
             className="nav_bar_button"
             onClick={() => {
               navigate("/mealplanner");
@@ -26,6 +27,7 @@ function Header() {
             Search Meal
           </Button>
           <Button
+            sx={{ ml: 5 }}
             className="nav_bar_button"
             onClick={() => {
               navigate("/weekplan");
@@ -33,7 +35,11 @@ function Header() {
           >
             Weekly Plan
           </Button>
-          <Button className="nav_bar_button" onClick={handleLogOut}>
+          <Button
+            sx={{ ml: 5 }}
+            className="nav_bar_button"
+            onClick={handleLogOut}
+          >
             Log out
           </Button>
         </Typography>

@@ -29,11 +29,11 @@ function Mealplanner() {
       [e.target.name]: e.target.value,
     }));
   };
-  // useEffect(() => {
-  //   if (Object.keys(currentUser).length <= 0) {
-  //     navigate("/");
-  //   }
-  // }, [currentUser]);
+  useEffect(() => {
+    if (Object.keys(currentUser).length <= 0) {
+      navigate("/");
+    }
+  }, [currentUser]);
 
   const handleAllergies = (e) => {
     e.preventDefault();
@@ -58,7 +58,7 @@ function Mealplanner() {
       progress: false,
     }));
   };
-  return (
+  return Object.keys(currentUser).length > 0 ? (
     <div>
       <Header />
       <div className="Meal_Body">
@@ -78,7 +78,7 @@ function Mealplanner() {
         />
       </div>
     </div>
-  );
+  ) : null;
 }
 
 export default Mealplanner;
