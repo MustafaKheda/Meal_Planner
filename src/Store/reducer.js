@@ -1,6 +1,5 @@
 import { combineReducers } from "redux";
 import { Actiontypes } from "./actionType";
-import { act } from "react-dom/test-utils";
 
 const initialState = {
   mealList: [],
@@ -108,11 +107,10 @@ const mealReducer = (state = initialState, action) => {
       };
     }
     case FETCH_PREV_MEAL: {
-      const { hit, next, prevLink } = action.payload;
+      const { hit, next } = action.payload;
       const updatedPrevLinks = prevLinks.filter(
         (item, index) => index !== prevLinks.length - 1
       );
-      console.log(updatedPrevLinks);
       return {
         ...state,
         mealList: hit,

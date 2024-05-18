@@ -1,6 +1,6 @@
 import React from "react";
 import { AppBar, Button, Toolbar, Typography } from "@mui/material";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { unSetCurrentUser } from "../Store/action";
 function Header() {

@@ -35,35 +35,6 @@ export const TableHeader = [
   "Actions",
 ];
 export const filterKey = ["priority", "status"];
-const recipes = [
-  {
-    id: 1,
-    name: "Oatmeal with Fruits",
-    ingredients: ["oats", "milk", "fruits"],
-    instructions: "1. Cook oats in milk. 2. Add fruits and mix well.",
-    dietaryPreferences: ["vegetarian", "gluten-free"],
-    allergies: [],
-  },
-  {
-    id: 2,
-    name: "Quinoa Salad",
-    ingredients: ["quinoa", "vegetables", "dressing"],
-    instructions:
-      "1. Cook quinoa. 2. Chop vegetables. 3. Mix quinoa, vegetables, and dressing.",
-    dietaryPreferences: ["vegan", "gluten-free"],
-    allergies: ["nuts"],
-  },
-  {
-    id: 3,
-    name: "Grilled Chicken with Roasted Vegetables",
-    ingredients: ["chicken", "vegetables", "seasonings"],
-    instructions:
-      "1. Marinate chicken. 2. Grill chicken. 3. Roast vegetables. 4. Serve together.",
-    dietaryPreferences: ["gluten-free"],
-    allergies: ["dairy"],
-  },
-  // Add more recipes as needed
-];
 export const cuisineCard = [
   {
     id: 1,

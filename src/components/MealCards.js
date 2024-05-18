@@ -14,21 +14,13 @@ import {
   Fade,
   Grid,
   MenuItem,
-  Slide,
   Snackbar,
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useState, forwardRef, useRef } from "react";
+import React, { useState, forwardRef, useRef } from "react";
 import "./meal.css";
-import {
-  Cake,
-  Restaurant,
-  Fastfood,
-  LocalCafe,
-  FastfoodOutlined,
-  EmojiFoodBeverage,
-} from "@mui/icons-material";
+import { Fastfood, LocalCafe } from "@mui/icons-material";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import { useDispatch, useSelector } from "react-redux";
 import { cuisineCard, mealTypes, weekdays } from "../Constant";
@@ -40,12 +32,10 @@ import {
   handleRemoveProduct,
   nextPage,
   prevPage,
-  removeLinks,
   removeMeal,
   setDayMeal,
 } from "../Store/action";
-import { Link, useNavigate } from "react-router-dom";
-import { all } from "axios";
+import { useNavigate } from "react-router-dom";
 import uuid from "react-uuid";
 import WeekMealDialog from "./WeekMealDialog";
 
@@ -75,8 +65,6 @@ const MealCards = forwardRef(
       currentPage,
     } = allMeal;
 
-    //Use States
-    const [apiData, setApiData] = useState([]);
     //state show the ingredient list in the dialog box
     const [ingredient, setIngredient] = useState({
       dishName: "",
@@ -105,7 +93,6 @@ const MealCards = forwardRef(
       image: "",
     });
     const [openForm, setOpenForm] = useState(false);
-    const [dialogKey, setDialogKey] = useState(0);
     //
     const handleCloseForm = () => {
       setOpenForm(false);
@@ -138,6 +125,7 @@ const MealCards = forwardRef(
       }, 2200);
       return () => {
         clearTimeout(timerRef.current);
+        clearTimeout(timerId);
       };
     };
 
@@ -197,6 +185,7 @@ const MealCards = forwardRef(
         [e.target.name]: e.target.value,
       });
     };
+
     // Dialog box submit handle
     const handleSubmit = (e) => {
       e.preventDefault();
@@ -312,7 +301,7 @@ const MealCards = forwardRef(
                 >
                   <CardContent>
                     <div className="cuisine_card_icon">
-                      {index % 2 == 0 ? <LocalCafe /> : <Fastfood />}
+                      {index % 2 === 0 ? <LocalCafe /> : <Fastfood />}
                     </div>
                     <Typography fontSize={12} variant="h6">
                       {title}
@@ -342,7 +331,6 @@ const MealCards = forwardRef(
                   image,
                   images,
                   uri,
-                  mealType,
                   dishType,
                   totalTime,
                   url,
@@ -442,7 +430,7 @@ const MealCards = forwardRef(
 
         {/* // Ingredient list */}
         <Dialog
-          key={dialogKey}
+          key={0}
           open={openInList}
           // TransitionComponent={handleTransition}
           onClose={handleCloseInList}

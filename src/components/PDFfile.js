@@ -55,7 +55,6 @@ const testFile = forwardRef(({ mealsData }, ref) => {
           </TableHead>
           <TableBody>
             {sortedMeal().map((meal, index) => {
-              console.log(meal);
               const { weekDay, mealType, label, url } = meal;
               return (
                 <TableRow

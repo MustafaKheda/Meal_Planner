@@ -22,7 +22,6 @@ export const setDayMeal = (data) => {
 };
 
 export const fetchSearchMeal = (query, type) => {
-  console.log(query);
   return async function (dispatch) {
     const response = await edamanApi.get(
       `/v2?type=public&q=${query}&app_id=${API_ID}&app_key=${API_key}`
@@ -58,7 +57,6 @@ export const fetchSearchMeal = (query, type) => {
 };
 
 export const fetchCuisineMeal = (query) => {
-  console.log(query);
   return async function (dispatch) {
     const response = await edamanApi.get(
       `/v2?type=public&&app_id=${API_ID}&app_key=${API_key}&cuisineType=${query}`
@@ -85,7 +83,6 @@ export const fetchCuisineMeal = (query) => {
   };
 };
 export const fetchDishTypeMeal = (query) => {
-  console.log(query);
   return async function (dispatch) {
     const response = await edamanApi.get(
       `/v2?type=public&&app_id=${API_ID}&app_key=${API_key}&dishType=${query}`
@@ -174,7 +171,6 @@ export const prevPage = (link) => {
   const { href } = link;
   return async function (dispatch) {
     const response = await axios.get(href);
-    console.log(response);
     dispatch({
       type: Actiontypes.FETCH_PREV_MEAL,
       payload: {
@@ -186,7 +182,6 @@ export const prevPage = (link) => {
 };
 
 export const handleFetchMealByLink = (href) => {
-  console.log(href);
   return async function (dispatch) {
     const response = await axios.get(href);
     dispatch({
@@ -197,7 +192,6 @@ export const handleFetchMealByLink = (href) => {
 };
 // export const fetchFilterMeal = (query, allergies) => {
 //   return async function (dispatch) {
-//     console.log(query);
 //     const response = await edamanApi.get(
 //       `/v2?type=public&q=${query}&app_id=${API_ID}&app_key=${API_key}&health=${Object.keys(
 //         allergies

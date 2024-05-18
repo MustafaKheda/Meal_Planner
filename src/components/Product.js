@@ -131,7 +131,6 @@ function Product() {
       });
     }
   };
-  console.log(Object.keys(totalNutrients));
   const NutritionArray = [
     "ENERC_KCAL",
     "FAT",

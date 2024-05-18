@@ -8,9 +8,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useState, forwardRef, useRef } from "react";
-
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
 import { mealTypes, weekdays } from "../Constant";
 
 const WeekMealDialog = ({
@@ -20,9 +18,6 @@ const WeekMealDialog = ({
   userData,
   openForm,
 }) => {
-  const allMeal = useSelector((store) => store.allMeal);
-  const { userMeal } = allMeal;
-
   return (
     <Dialog open={openForm} onClose={handleCloseForm} scroll="body">
       <DialogTitle>

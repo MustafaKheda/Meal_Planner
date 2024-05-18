@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes, useRoutes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import Mealplanner from "./components/Mealplanner";
 import Login from "./components/login/Login";
@@ -9,9 +9,6 @@ import Product from "./components/Product";
 import PDFfile from "./components/PDFfile";
 
 function App() {
-  console.log(process.env, "process");
-  // const route = useRoutes();
-  // console.log(route);
   return (
     <div className="App">
       <Routes>

@@ -63,7 +63,6 @@ const Login = () => {
   const { username, password, mobileNumber, email } = auth;
   const { open, type } = openSnackBar;
   const { passwordLogin, any } = login;
-  console.log(auth);
   useEffect(() => {
     if (type === "login" || type === "signup") {
       setTimeout(() => {

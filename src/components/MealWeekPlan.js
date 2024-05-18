@@ -35,7 +35,6 @@ function MealWeekPlan() {
     }
   }, [currentUser]);
   const [weekDates, setWeekDates] = useState([]);
-  console.log(pdfRef);
   const value = false;
   useEffect(() => {
     const getCurrentWeekDates = () => {
@@ -124,7 +123,6 @@ function MealWeekPlan() {
     return mergedArr;
   }
   const handleGeneratePdf = () => {
-    console.log(pdfRef);
     const doc = new jsPDF("l", "px", "a4");
 
     doc.html(pdfRef.current, {
