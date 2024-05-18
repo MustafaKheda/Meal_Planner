@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/Meal_Planner/static/css/main.2be4c16d.css",
-    "main.js": "/Meal_Planner/static/js/main.c368cc94.js",
+    "main.js": "/Meal_Planner/static/js/main.90e3e928.js",
     "static/js/498.af656529.chunk.js": "/Meal_Planner/static/js/498.af656529.chunk.js",
     "static/js/703.598885db.chunk.js": "/Meal_Planner/static/js/703.598885db.chunk.js",
     "static/js/198.b480ac6c.chunk.js": "/Meal_Planner/static/js/198.b480ac6c.chunk.js",
@@ -9,13 +9,13 @@
     "static/media/BG.jpg": "/Meal_Planner/static/media/BG.af0babc8147cd355b50a.jpg",
     "index.html": "/Meal_Planner/index.html",
     "main.2be4c16d.css.map": "/Meal_Planner/static/css/main.2be4c16d.css.map",
-    "main.c368cc94.js.map": "/Meal_Planner/static/js/main.c368cc94.js.map",
+    "main.90e3e928.js.map": "/Meal_Planner/static/js/main.90e3e928.js.map",
     "498.af656529.chunk.js.map": "/Meal_Planner/static/js/498.af656529.chunk.js.map",
     "703.598885db.chunk.js.map": "/Meal_Planner/static/js/703.598885db.chunk.js.map",
     "198.b480ac6c.chunk.js.map": "/Meal_Planner/static/js/198.b480ac6c.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.2be4c16d.css",
-    "static/js/main.c368cc94.js"
+    "static/js/main.90e3e928.js"
   ]
 }
