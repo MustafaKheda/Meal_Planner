@@ -4,7 +4,6 @@ import { v4 as uuid } from "uuid";
 import {
   Backdrop,
   Button,
-  ButtonGroup,
   CircularProgress,
   IconButton,
   InputAdornment,
@@ -16,9 +15,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setCurrentUser, setUser, unSetCurrentUser } from "../../Store/action";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import PDFfile from "../PDFfile";
-import DialpadIcon from "@mui/icons-material/Dialpad";
-import AlternateEmailIcon from "@mui/icons-material/AlternateEmail";
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -46,7 +42,6 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showSignup, setSignup] = useState(true);
-  const [changeType, setChangeType] = useState(false);
   const messageMap = {
     signup: "Signup Successful",
     login: "Login Successful",
@@ -81,7 +76,6 @@ const Login = () => {
 
   const handleClickShowPassword = () => setShowPassword(!showPassword);
 
-  const handleClickChangeType = () => setChangeType(!changeType);
   const handleClose = () => {
     setOpen({
       open: false,

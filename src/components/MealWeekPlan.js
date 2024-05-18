@@ -16,7 +16,7 @@ import React from "react";
 import "./meal.css";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import { useDispatch } from "react-redux";
-import { unSetCurrentUser, deleteMeal, resetMeal } from "../Store/action";
+import { deleteMeal, resetMeal } from "../Store/action";
 import { useNavigate } from "react-router-dom";
 import PDFfile from "./PDFfile";
 import Header from "./Header";
@@ -35,7 +35,7 @@ function MealWeekPlan() {
     }
   }, [currentUser]);
   const [weekDates, setWeekDates] = useState([]);
-  const value = false;
+
   useEffect(() => {
     const getCurrentWeekDates = () => {
       const today = new Date();
@@ -154,14 +154,14 @@ function MealWeekPlan() {
 
   //Function to show the meal item in list
   const showMeal = (meal, type) => {
-    const { meals, weekDay } = meal;
+    const { meals } = meal;
     return meals.map(({ id, label, mealType, image, url }) => {
       return mealType === type ? (
         <div className="week_card_meal">
           <div className="week_card_icon">
             <ClearIcon onClick={() => dispatch(deleteMeal(id))} />
           </div>
-          <img className="week_image" src={image} />
+          <img className="week_image" src={image} alt={label} />
           <Typography className="week_card_label">{label}</Typography>
           <Button href={url} target="_blank">
             View Full recipe
