@@ -29,10 +29,12 @@ function MealWeekPlan() {
   const currentUser = useSelector((state) => state.allMeal.currentUser);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   useEffect(() => {
-    if (Object.keys(currentUser).length <= 0) {
+    if (!currentUser || Object.keys(currentUser).length === 0) {
       navigate("/");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUser]);
   const [weekDates, setWeekDates] = useState([]);
 

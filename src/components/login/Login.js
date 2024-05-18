@@ -37,6 +37,7 @@ const Login = () => {
   });
   useEffect(() => {
     dispatch(unSetCurrentUser());
+    //eslint-disable-next-line
   }, []);
 
   const [loading, setLoading] = useState(false);
@@ -72,6 +73,7 @@ const Login = () => {
         }, 1500);
       }, 1000);
     }
+    //eslint-disable-next-line
   }, [type]);
 
   const handleClickShowPassword = () => setShowPassword(!showPassword);

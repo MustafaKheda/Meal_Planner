@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import MealSearch from "./MealSearch";
 import MealCards from "./MealCards";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Header from "./Header";
 import "./meal.css";
@@ -33,6 +33,7 @@ function Mealplanner() {
     if (Object.keys(currentUser).length <= 0) {
       navigate("/");
     }
+    //eslint-disable-next-line
   }, [currentUser]);
 
   const handleAllergies = (e) => {

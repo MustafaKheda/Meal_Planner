@@ -1,5 +1,4 @@
 import {
-  Button,
   Checkbox,
   FormControl,
   FormControlLabel,
@@ -7,16 +6,13 @@ import {
   FormLabel,
   Grid,
   InputAdornment,
-  MenuItem,
   TextField,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import "./meal.css";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { fetchSearchMeal, removeMeal, setAllergy } from "../Store/action";
-import { api_data } from "./apis/api";
 
 function MealSearch({
   mealCardsRef,
@@ -29,16 +25,18 @@ function MealSearch({
   const { query, allergies } = state;
   const dispatch = useDispatch();
   const mealRef = useRef();
-  const currentUser = useSelector((state) => state.allMeal?.currentUser);
 
   // useEffect(() => {
   //   if (query === "") dispatch(removeMeal());
   // }, [query]);
 
   const data = Object.keys(allergies).filter((allergy) => allergies[allergy]);
+
   useEffect(() => {
-    dispatch(setAllergy(data));
-  }, [allergies]);
+    if (data) {
+      dispatch(setAllergy(data));
+    }
+  }, [data, dispatch]);
 
   const handleSearch = (e) => {
     if (query === "") {
