@@ -292,7 +292,7 @@ const MealCards = forwardRef(
             textTransform={"uppercase"}
             fontWeight={"700"}
             variant="h5"
-            component="div"
+            sx={{}}
           >
             Category Type
           </Typography>

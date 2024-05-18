@@ -97,10 +97,9 @@ function MealSearch({
             onChange={handleChange}
           />
         </Grid>
-        <Grid item xs={12} sm={4} md={6} lg={6}>
+        <Grid item xs={8} sm={4} md={6} lg={6}>
           <FormControl fullWidth component="fieldset" ref={mealRef}>
             <FormLabel component="legend">Allergies</FormLabel>
-
             <FormGroup
               className="meal_select_alleries"
               aria-label="position"
